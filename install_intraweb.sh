@@ -44,7 +44,7 @@ install_rubybook() {
 }
 
 apache_settings() {
-    sudo vim $APACHE_CONF $REPO_ROOT/conf/default
+    sudo vim $HTTP_CONF $REPO_ROOT/conf/default
     sudo vim $DOCUMENT_ROOT/html/index.html
     sudo /etc/init.d/apache2 restart
 }
@@ -52,6 +52,7 @@ apache_settings() {
 main() {
     setup_environment
     clear_dir $DOCUMENT_ROOT/html
+    test -f $DOCUMENT_ROOT/index.html && sudo rm $DOCUMENT_ROOT/index.html
     setup_intraweb
     if [ -f /etc/debian_version ]; then
         install_rubybook
