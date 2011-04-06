@@ -33,7 +33,7 @@ clear_dir() {
 }
 
 setup_intraweb() {
-    sudo cp -R $HTTP_CONF $REPO_ROOT/html $DOCUMENT_ROOT
+    sudo cp -R $REPO_ROOT/html $DOCUMENT_ROOT
     sudo chown -R $OWNER $DOCUMENT_ROOT
 }
 
