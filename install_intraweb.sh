@@ -44,8 +44,8 @@ install_rubybook() {
 }
 
 apache_settings() {
-    sudo vim $HTTP_CONF $REPO_ROOT/conf/default
-    sudo vim $DOCUMENT_ROOT/html/index.html
+    sudo vi $HTTP_CONF $REPO_ROOT/conf/default
+    sudo vi $DOCUMENT_ROOT/html/index.html
     sudo /etc/init.d/apache2 restart
 }
 
