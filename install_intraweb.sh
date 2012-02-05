@@ -47,10 +47,24 @@ install_rubybook() {
 
 apache_settings() {
     sudo cp $REPO_ROOT/conf/custom $HTTP_CONF
+    sudo chmod 644 $HTTP_CONF
+    sudo chown root:root $HTTP_CONF
     sudo vi $HTTP_CONF
     sudo vi $DOCUMENT_ROOT/html/index.html
     sudo a2dissite default
     sudo a2ensite custom
+}
+
+enable_ssl() {
+    test -d /etc/apache2/ssl || sudo mkdir -p /etc/apache2/ssl
+    sudo /usr/sbin/make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /etc/apache2/ssl/apache.pem
+    sudo cp $REPO_ROOT/conf/custom-ssl $HTTP_CONF-ssl
+    sudo chmod 644 $HTTP_CONF-ssl
+    sudo chown root:root $HTTP_CONF-ssl
+    sudo vi $HTTP_CONF-ssl
+    sudo a2enmod ssl
+    sudo a2dissite default-ssl
+    sudo a2ensite custom-ssl
     sudo /etc/init.d/apache2 restart
 }
 
@@ -63,6 +77,7 @@ main() {
         install_rubybook
     fi
     apache_settings
+    enable_ssl
 }
 
 main
