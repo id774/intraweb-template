@@ -5,6 +5,8 @@
 #
 #  Maintainer: id774 <idnanashi@gmail.com>
 #
+#  v0.2 2/5,2012
+#       Rename config file.
 #  v0.1 4/6,2011
 #       First.
 ########################################################################
@@ -12,7 +14,7 @@
 setup_environment() {
     REPO_ROOT=$HOME/intraweb-template
     DOCUMENT_ROOT=/var/www
-    HTTP_CONF=/etc/apache2/sites-available/default 
+    HTTP_CONF=/etc/apache2/sites-available/custom
     case $OSTYPE in
       *darwin*)
         OWNER=root:wheel
@@ -44,8 +46,11 @@ install_rubybook() {
 }
 
 apache_settings() {
-    sudo vi $HTTP_CONF $REPO_ROOT/conf/default
+    sudo cp $REPO_ROOT/conf/custom $HTTP_CONF
+    sudo vi $HTTP_CONF
     sudo vi $DOCUMENT_ROOT/html/index.html
+    sudo a2dissite default
+    sudo a2ensite custom
     sudo /etc/init.d/apache2 restart
 }
 
