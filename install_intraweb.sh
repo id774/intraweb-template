@@ -14,7 +14,8 @@
 setup_environment() {
     REPO_ROOT=$HOME/intraweb-template
     DOCUMENT_ROOT=/var/www
-    HTTP_CONF=/etc/apache2/sites-available/custom
+    HTTP_CONF=/etc/apache2/sites-available/custom.conf
+    HTTPS_CONF=/etc/apache2/sites-available/custom-ssl.conf
     case $OSTYPE in
       *darwin*)
         OWNER=root:wheel
@@ -46,7 +47,7 @@ install_rubybook() {
 }
 
 apache_settings() {
-    sudo cp $REPO_ROOT/conf/custom $HTTP_CONF
+    sudo cp $REPO_ROOT/conf/custom.conf $HTTP_CONF
     sudo chmod 644 $HTTP_CONF
     sudo chown root:root $HTTP_CONF
     sudo vi $HTTP_CONF
@@ -58,10 +59,10 @@ apache_settings() {
 enable_ssl() {
     test -d /etc/apache2/ssl || sudo mkdir -p /etc/apache2/ssl
     sudo /usr/sbin/make-ssl-cert /usr/share/ssl-cert/ssleay.cnf /etc/apache2/ssl/apache.pem
-    sudo cp $REPO_ROOT/conf/custom-ssl $HTTP_CONF-ssl
-    sudo chmod 644 $HTTP_CONF-ssl
-    sudo chown root:root $HTTP_CONF-ssl
-    sudo vi $HTTP_CONF-ssl
+    sudo cp $REPO_ROOT/conf/custom-ssl.conf $HTTPS_CONF
+    sudo chmod 644 $HTTPS_CONF
+    sudo chown root:root $HTTPS_CONF
+    sudo vi $HTTPS_CONF
     sudo a2enmod ssl
     sudo a2dissite default-ssl
     sudo a2ensite custom-ssl
